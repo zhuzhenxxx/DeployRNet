@@ -345,7 +345,7 @@ void YoloV5::GetOutput_LVM(char* save_filepath_abs)
 
 }
 
-int YoloV5::RunInfer(const std::string& input_img_path, const std::string& output_img_path)
+cv::Mat YoloV5::RunInfer(const std::string& input_img_path, const std::string& output_img_path)
 {
 	if (input_img_path.empty())
 	{
@@ -371,7 +371,6 @@ int YoloV5::RunInfer(const std::string& input_img_path, const std::string& outpu
 	if (feed_img_data_.empty())
 	{
 		std::cout << "Invalid image format. Must be 224*224 RGB image. " << std::endl;
-		return 0;
 	}
 
 	try
@@ -395,14 +394,13 @@ int YoloV5::RunInfer(const std::string& input_img_path, const std::string& outpu
 		det_out2.get();
 		cv::Mat hwcImage(output_height_, output_width_, CV_8UC3, fill_output_hwc_abnormal_.data());
 		cv::imwrite(output_img_path, hwcImage);
+		return hwcImage;
 	}
 	catch (const Ort::Exception& exception)
 	{
 		cout << "error running model inference: " << exception.what() << endl;
-		return 0;
 	}
 	cout << "success running model inference. " << "images: " << input_img_path << endl;
-	return 0;
 }
 
 YoloV5::~YoloV5()

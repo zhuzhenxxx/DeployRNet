@@ -29,13 +29,12 @@ bool FaceProcess::hasFace(cv::Mat image)
     }
 }
 
-void FaceProcess::faceSlice(const std::string& image_path, const std::string& output_image_path)
+Mat FaceProcess::faceSlice(Mat image)
 {
-    Mat image = imread(image_path, IMREAD_COLOR);
+    //Mat image = imread(image_path, IMREAD_COLOR);
 
     if (image.empty()) {
         std::cout << "Could not open or find the image" << std::endl;
-        return ;
     }
 
     Mat gray_image;
@@ -64,9 +63,10 @@ void FaceProcess::faceSlice(const std::string& image_path, const std::string& ou
     namedWindow("Edges", WINDOW_NORMAL);
     imshow("Edges", colored_edges);
     //imwrite("colored_edges.png", colored_edges);
-    imwrite(output_image_path, colored_edges);
     
-    waitKey(0);
+    //imwrite(output_image_path, colored_edges);
+    return colored_edges;
+    //waitKey(0);
 }
 
 void FaceProcess::makePoint(const std::string& image_path, const std::string& output_image_path)

@@ -1,5 +1,6 @@
 #pragma once
 #include "inference_interface.h"
+#include <opencv2/opencv.hpp>
 
 extern "C"
 {
@@ -11,10 +12,10 @@ extern "C"
             model = inference_model;
         }
 
-        void runInference(const std::string& input_path) {
+        cv::Mat runInference(const std::string& input_path) {
             model->preprocess();
-            std::vector<float> output_data = model->infer(input_path);
-            model->postprocess(output_data);
+            return model->infer(input_path);
+            //model->postprocess(output_data);
         }
 
     private:

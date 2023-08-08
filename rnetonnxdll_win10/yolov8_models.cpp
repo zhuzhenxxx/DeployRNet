@@ -36,7 +36,7 @@ YoloV8::~YoloV8() {
 	env.release();
 }
 
-void YoloV8::runInference(const std::string& image_path) {
+cv::Mat YoloV8::runInference(const std::string& image_path) {
     // Load and preprocess the image
     cv::Mat frame = cv::imread(image_path);
 
@@ -86,11 +86,10 @@ void YoloV8::runInference(const std::string& image_path) {
     }
     catch (std::exception& e) {
         std::cout << e.what() << std::endl;
-        return;
     }
 
     // Post-process the results and display the image
-    postprocessResults(frame, ort_outputs);
+    return postprocessResults(frame, ort_outputs);
 }
 
 std::vector<std::string> YoloV8::readClassNames(const std::string& labels_txt_file) {
@@ -127,7 +126,7 @@ void YoloV8::preprocessImage(cv::Mat& frame, float& x_factor, float& y_factor, c
     blob = cv::dnn::blobFromImage(image, 1.0 / 255.0, cv::Size(input_w, input_h), cv::Scalar(0, 0, 0), true, false);
 }
 
-void YoloV8::postprocessResults(cv::Mat& frame, std::vector<Ort::Value>& ort_outputs) {
+cv::Mat YoloV8::postprocessResults(cv::Mat& frame, std::vector<Ort::Value>& ort_outputs) {
     // Display the results
 	const float* pdata = ort_outputs[0].GetTensorMutableData<float>();
 	const float* mdata = ort_outputs[1].GetTensorMutableData<float>();
@@ -249,7 +248,8 @@ void YoloV8::postprocessResults(cv::Mat& frame, std::vector<Ort::Value>& ort_out
 
 	std::cout << "frame wight: " << frame.cols << " height: " << frame.rows << std::endl;
 
-	cv::imshow("ONNXRUNTIME1.13 + YOLOv8实例分割推理演示", frame);
-	cv::imwrite("E:/codes/DeployRNet/test_image/1_out.jpg", frame);
-	cv::waitKey(0);
+	return frame;
+	//cv::imshow("ONNXRUNTIME1.13 + YOLOv8实例分割推理演示", frame);
+	//cv::imwrite("E:/codes/DeployRNet/test_image/1_out.jpg", frame);
+	//cv::waitKey(0);
 }

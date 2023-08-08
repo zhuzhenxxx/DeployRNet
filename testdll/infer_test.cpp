@@ -96,6 +96,8 @@
 
 #include "inference_pipeline.h"
 #include "model_factory.h"
+#include "utils.h"
+#include <opencv2/opencv.hpp>
 
 int main()
 {
@@ -113,21 +115,27 @@ int main()
     //// Run the inference process
     //pipeline_v5.runInference(image_v5);
 
-
+    // 1. ÍÆÀí
     YoloModelVersion model_version_v8 = YoloModelVersion::V8;
     InferenceInterface* yolov8_model = ModelFactory::createModel(model_version_v8, model_path_yolov8);
     InferencePipeline pipeline_v8(yolov8_model);
-    pipeline_v8.runInference(image_v8);
+    cv::Mat v8_orin = pipeline_v8.runInference(image_v8);
 
+    // 2. ÈËÁ³ÇÐ¸î
+    FaceProcess fp;
+    cv::Mat slice_result = fp.faceSlice(v8_orin);
+    namedWindow("slice_face", WINDOW_NORMAL);
+    cv::imshow("slice_face", slice_result);
+    waitKey(0);
+
+    // 3. xxx
+    // 4. xxx
+    // 5. xxx
+    // 
+ 
     // Clean up memory
     //delete yolov5_model;
     delete yolov8_model;
-
-    //Pot* potDet = new Pot;
-    //BlackHead* bhDet = new BlackHead();
-    //string srcImagePath = "RedMap.jpg";
-    //Mat src = imread(srcImagePath);
-    //Mat result = potDet->PotDetect(src);
 
     return 0;
 }

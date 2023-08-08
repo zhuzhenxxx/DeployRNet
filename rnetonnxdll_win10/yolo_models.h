@@ -33,16 +33,16 @@ extern "C"
                 PrintModelInfo();
             }
 
-            std::vector<float> infer(const std::string& input_path) override {
+            cv::Mat infer(const std::string& input_path) override {
                 // Implement YOLOv5 inference logic here
                 std::string output = "E:/codes/DeployRNet/x64/Release/yolov5_out.jpg";
-                RunInfer(input_path, output);
-                std::vector<float> tmp;
-                return tmp;
+                return RunInfer(input_path, output);
             }
 
-            void postprocess(const std::vector<float>& output_data) override {
+            cv::Mat postprocess(const std::vector<float>& output_data) override {
                 // Implement YOLOv5 postprocessing logic here
+                cv::Mat tmp;
+                return tmp;
             }
 
         private:
@@ -55,7 +55,7 @@ extern "C"
 
             int Init();
             void PrintModelInfo();
-            int RunInfer(const std::string& input_img_path, const std::string& output_img_path);
+            cv::Mat RunInfer(const std::string& input_img_path, const std::string& output_img_path);
         private:
 
             std::string                 model_;
@@ -108,26 +108,28 @@ extern "C"
         YoloV8(const std::string& model_path);
         ~YoloV8();
 
-        void runInference(const std::string& image_path);
+        cv::Mat runInference(const std::string& image_path);
         std::vector<std::string> readClassNames(const std::string& labels_txt_file);
         float sigmoid_function(float a);
         void preprocessImage(cv::Mat& frame, float& x_factor, float& y_factor, cv::Mat& blob);
-        void postprocessResults(cv::Mat& frame, std::vector<Ort::Value>& ort_outputs);
+        cv::Mat postprocessResults(cv::Mat& frame, std::vector<Ort::Value>& ort_outputs);
     public:
         void preprocess() override {
             // Implement YOLOv8 preprocessing logic here
 
         }
 
-        std::vector<float> infer(const std::string& input_path) override {
+        cv::Mat infer(const std::string& input_path) override {
             // Implement YOLOv8 inference logic here
-            runInference(input_path);
-            std::vector<float> tmp;
-            return tmp;
+            return runInference(input_path);
+            //std::vector<float> tmp;
+            //return tmp;
         }
 
-        void postprocess(const std::vector<float>& output_data) override {
+        cv::Mat postprocess(const std::vector<float>& output_data) override {
             // Implement YOLOv8 postprocessing logic here
+            cv::Mat tmp;
+            return tmp;
         }
 
     private:
