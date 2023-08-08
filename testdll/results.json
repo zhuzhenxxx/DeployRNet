@@ -1,0 +1,1 @@
+{"otherData": {},"traceEvents":[{"cat":"function","dur":563140,"name":"printFunc","ph":"X","pid":0,"tid":3956988805,"ts":4877031285},{"cat":"function","dur":518848,"name":"printFunc","ph":"X","pid":0,"tid":3956988805,"ts":4877594481},{"cat":"function","dur":44428619,"name":"Profiled Scope Name","ph":"X","pid":0,"tid":3956988805,"ts":4878113380}]}
